@@ -2,9 +2,14 @@ spring:
   application:
     name: journalize
 
-# AUTO RESTART AND LIVE RELOAD CONFIGURATION
+  # AUTO RESTART AND LIVE RELOAD CONFIGURATION
   devtools:
     restart:
       enabled: true
     livereload:
       enabled: true
+
+  # MONGODB CONFIGURATION
+  mongodb:
+    uri: ${MONGODB_URI}
+    database: ${MONGODB_DATABASE}

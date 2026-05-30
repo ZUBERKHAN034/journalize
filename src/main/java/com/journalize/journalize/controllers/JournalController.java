@@ -29,7 +29,7 @@ public class JournalController {
     }
 
     @PutMapping("/{id}")
-    public Journal updateJournal(@PathVariable Long id, @RequestBody Journal journal) {
+    public Journal updateJournal(@PathVariable String id, @RequestBody Journal journal) {
         return journalService.updateJournal(id, journal);
     }
 
@@ -39,12 +39,12 @@ public class JournalController {
     }
 
     @GetMapping("/{id}")
-    public Journal getJournalById(@PathVariable Long id) {
+    public Journal getJournalById(@PathVariable String id) {
         return journalService.getJournalById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteJournal(@PathVariable Long id) {
+    public void deleteJournal(@PathVariable String id) {
         journalService.deleteJournal(id);
     }
 }
