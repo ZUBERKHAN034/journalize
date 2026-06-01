@@ -7,4 +7,5 @@ import com.journalize.journalize.entities.Journal;
 
 @Repository
 public interface JournalRepository extends MongoRepository<Journal, String> {
+    boolean existsByTitle(String title);
 }

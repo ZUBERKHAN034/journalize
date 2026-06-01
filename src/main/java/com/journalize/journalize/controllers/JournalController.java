@@ -2,6 +2,8 @@ package com.journalize.journalize.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +26,28 @@ public class JournalController {
     private final JournalService journalService;
 
     @PostMapping
-    public Journal createJournal(@RequestBody Journal journal) {
-        return journalService.createJournal(journal);
+    public ResponseEntity<Journal> createJournal(@RequestBody Journal journal) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(journalService.createJournal(journal));
     }
 
     @PutMapping("/{id}")
-    public Journal updateJournal(@PathVariable String id, @RequestBody Journal journal) {
-        return journalService.updateJournal(id, journal);
+    public ResponseEntity<Journal> updateJournal(@PathVariable String id, @RequestBody Journal journal) {
+        return ResponseEntity.ok(journalService.updateJournal(id, journal));
     }
 
     @GetMapping
-    public List<Journal> getAllJournals() {
-        return journalService.getAllJournals();
+    public ResponseEntity<List<Journal>> getAllJournals() {
+        return ResponseEntity.ok(journalService.getAllJournals());
     }
 
     @GetMapping("/{id}")
-    public Journal getJournalById(@PathVariable String id) {
-        return journalService.getJournalById(id);
+    public ResponseEntity<Journal> getJournalById(@PathVariable String id) {
+        return ResponseEntity.ok(journalService.getJournalById(id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteJournal(@PathVariable String id) {
+    public ResponseEntity<Void> deleteJournal(@PathVariable String id) {
         journalService.deleteJournal(id);
+        return ResponseEntity.noContent().build();
     }
 }
