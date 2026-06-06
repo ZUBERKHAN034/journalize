@@ -1,4 +1,4 @@
-package com.journalize.journalize.exceptions;
+package com.journalize.journalize.exceptions.journal;
 
 public class JournalAlreadyExistsException extends RuntimeException {
     public JournalAlreadyExistsException(String title) {

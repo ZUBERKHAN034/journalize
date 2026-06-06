@@ -4,9 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+
+import com.journalize.journalize.dto.ApiResponse;
+import com.journalize.journalize.dto.journal.CreateJournalRequest;
+import com.journalize.journalize.dto.journal.UpdateJournalRequest;
 import com.journalize.journalize.entities.Journal;
-import com.journalize.journalize.exceptions.JournalAlreadyExistsException;
-import com.journalize.journalize.exceptions.JournalNotFoundException;
+import com.journalize.journalize.exceptions.journal.JournalAlreadyExistsException;
+import com.journalize.journalize.exceptions.journal.JournalNotFoundException;
 import com.journalize.journalize.repositories.JournalRepository;
 
 @Service
@@ -15,58 +19,77 @@ public class JournalService {
 
     private final JournalRepository journalRepository;
 
-    public Journal createJournal(Journal journal) {
-        // check 1 — duplicate title?
-        if (journalRepository.existsByTitle(journal.getTitle())) {
-            throw new JournalAlreadyExistsException(journal.getTitle());
-        }
+    public ApiResponse<Journal> createJournal(CreateJournalRequest request) {
+        try {
+            // check if journal with the same title already exists
+            if (journalRepository.existsByTitle(request.getTitle())) {
+                throw new JournalAlreadyExistsException(request.getTitle());
+            }
 
-        // check 2 — empty content?
-        if (journal.getContent() == null || journal.getContent().isBlank()) {
-            throw new IllegalArgumentException("Journal content cannot be empty");
-        }
+            // save the journal to the database
+            final Journal journal = Journal.builder().title(request.getTitle()).content(request.getContent()).build();
 
-        final var savedJournal = journalRepository.save(journal);
-        return savedJournal;
+            final Journal savedJournal = journalRepository.save(journal);
+            return ApiResponse.success("Journal created successfully", savedJournal);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
-    public Journal updateJournal(String id, Journal journal) {
-        // check 1 — does it exist?
-        Journal existingJournal = journalRepository.findById(id)
-                .orElseThrow(() -> new JournalNotFoundException(id));
+    public ApiResponse<Journal> updateJournal(String id, UpdateJournalRequest request) {
+        try {
+            // check if journal exists
+            Journal existingJournal = journalRepository.findById(id)
+                    .orElseThrow(() -> new JournalNotFoundException(id));
 
-        // check 2 — duplicate title?
-        if (journalRepository.existsByTitle(journal.getTitle())) {
-            throw new JournalAlreadyExistsException(journal.getTitle());
+            // check if title is already taken
+            if (journalRepository.existsByTitle(request.getTitle())) {
+                throw new JournalAlreadyExistsException(request.getTitle());
+            }
+
+            existingJournal.setTitle(request.getTitle());
+            existingJournal.setContent(request.getContent());
+
+            final Journal updatedJournal = journalRepository.save(existingJournal);
+            return ApiResponse.success("Journal updated successfully", updatedJournal);
+        } catch (Exception e) {
+            throw e;
         }
-
-        // check 3 — empty content?
-        if (journal.getContent() == null || journal.getContent().isBlank()) {
-            throw new IllegalArgumentException("Journal content cannot be empty");
-        }
-
-        existingJournal.setTitle(journal.getTitle());
-        existingJournal.setContent(journal.getContent());
-
-        return journalRepository.save(existingJournal);
     }
 
-    public List<Journal> getAllJournals() {
-        final var journals = journalRepository.findAll();
-        return journals;
-    }
-
-    public Journal getJournalById(String id) {
-        // check 1 — does it exist?
-        final var journal = journalRepository.findById(id).orElseThrow(() -> new JournalNotFoundException(id));
-        return journal;
-    }
-
-    public void deleteJournal(String id) {
-        // check 1 — does it exist?
-        if (!journalRepository.existsById(id)) {
-            throw new JournalNotFoundException(id);
+    public ApiResponse<List<Journal>> getAllJournals() {
+        try {
+            final List<Journal> journals = journalRepository.findAll();
+            return ApiResponse.success("Journal found successfully", journals);
+        } catch (Exception e) {
+            throw e;
         }
-        journalRepository.deleteById(id);
+    }
+
+    public ApiResponse<Journal> getJournalById(String id) {
+        try {
+            // check if journal exists
+            final Journal journal = journalRepository.findById(id).orElseThrow(() -> new JournalNotFoundException(id));
+            return ApiResponse.success("Journal found successfully", journal);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public ApiResponse<Void> deleteJournal(String id) {
+        try {
+
+            // check if journal exists
+            if (!journalRepository.existsById(id)) {
+                throw new JournalNotFoundException(id);
+            }
+
+            // delete journal from the database
+            journalRepository.deleteById(id);
+
+            return ApiResponse.success("Journal deleted successfully");
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

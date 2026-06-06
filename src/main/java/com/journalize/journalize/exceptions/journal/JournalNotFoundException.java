@@ -1,4 +1,4 @@
-package com.journalize.journalize.exceptions;
+package com.journalize.journalize.exceptions.journal;
 
 public class JournalNotFoundException extends RuntimeException {
     public JournalNotFoundException(String id) {
