@@ -18,12 +18,14 @@ import com.journalize.journalize.dto.journal.UpdateJournalRequest;
 import com.journalize.journalize.entities.Journal;
 import com.journalize.journalize.services.JournalService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/journals")
 @RequiredArgsConstructor
+@RequestMapping("/journals")
+@SecurityRequirement(name = "bearerAuth")
 public class JournalController {
 
     private final JournalService journalService;

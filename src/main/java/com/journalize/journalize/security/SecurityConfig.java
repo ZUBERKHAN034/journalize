@@ -26,11 +26,15 @@ public class SecurityConfig {
                 http
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/api/auth/**",
-                                                                "/api/health",
+                                                .requestMatchers(
+                                                                "/auth/**",
+                                                                "/health",
                                                                 "/v3/api-docs/**",
                                                                 "/swagger-ui/**")
                                                 .permitAll()
+                                                // ADMIN ONLY
+                                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                // ALL AUTHENTICATED USERS
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

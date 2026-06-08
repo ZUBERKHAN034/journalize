@@ -22,7 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(user -> new User(
                         user.getEmail(),
                         user.getPassword(),
-                        List.of(new SimpleGrantedAuthority(user.getRoles().get(0)))))
+                        user.getRoles()
+                                .stream()
+                                .map(SimpleGrantedAuthority::new)
+                                .toList()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 }

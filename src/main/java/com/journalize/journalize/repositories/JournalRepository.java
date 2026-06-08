@@ -1,5 +1,8 @@
 package com.journalize.journalize.repositories;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -7,5 +10,11 @@ import com.journalize.journalize.entities.Journal;
 
 @Repository
 public interface JournalRepository extends MongoRepository<Journal, String> {
-    boolean existsByTitle(String title);
+    boolean existsByTitleAndUserId(String title, String userId);
+
+    List<Journal> findAllByUserId(String userId);
+
+    Optional<Journal> findByIdAndUserId(String id, String userId);
+
+    boolean deleteAllByUserId(String userId);
 }

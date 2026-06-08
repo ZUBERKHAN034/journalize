@@ -4,16 +4,18 @@ import java.util.List;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.dto.auth.LoginRequest;
-import com.journalize.journalize.dto.auth.Token;
+import com.journalize.journalize.dto.auth.TokenResponse;
 import com.journalize.journalize.dto.auth.RegisterRequest;
 import com.journalize.journalize.entities.User;
 import com.journalize.journalize.exceptions.user.UserAlreadyExistsException;
-import com.journalize.journalize.exceptions.user.UserNotFoundByEmailException;
 import com.journalize.journalize.repositories.UserRepository;
 import com.journalize.journalize.security.JwtService;
 
@@ -29,49 +31,44 @@ public class AuthService {
     private final JwtService jwtService;
 
     public ApiResponse<User> register(RegisterRequest request) {
-        try {
-            // Check if user with the same email already exists
-            if (userRepository.existsByEmail(request.getEmail())) {
-                throw new UserAlreadyExistsException(request.getEmail());
-            }
-
-            // Create and save the user
-            final User user = User.builder().email(request.getEmail())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .firstName(request.getFirstName())
-                    .lastName(request.getLastName())
-                    .roles(List.of("USER"))
-                    .build();
-
-            // save the user to the database
-            final User registeredUser = userRepository.save(user);
-
-            return ApiResponse.success("User registered successfully", registeredUser);
-        } catch (Exception e) {
-            throw e;
+        // Check if user with the same email already exists
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new UserAlreadyExistsException(request.getEmail());
         }
+
+        // Create user payload
+        User user = User.builder().email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .roles(List.of("USER"))
+                .build();
+
+        // save the user to the database
+        User registeredUser = userRepository.save(user);
+
+        return ApiResponse.success("User registered successfully", registeredUser);
     }
 
-    public ApiResponse<Token> login(LoginRequest request) {
-        try {
-            // check if user exists
-            User user = userRepository.findByEmail(request.getEmail())
-                    .orElseThrow(() -> new UserNotFoundByEmailException(request.getEmail()));
+    public ApiResponse<TokenResponse> login(LoginRequest request) {
+        // Authenticate the user
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-            // authenticates email + password — throws if invalid
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()));
+        // Get the authenticated user details
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-            // generate token and build payload
-            String generatedToken = jwtService.generateToken(user.getEmail());
-            final Token token = Token.builder().token(generatedToken).build();
+        // Generate the JWT token
+        String tokenValue = jwtService.generateToken(userDetails.getUsername());
+        TokenResponse token = TokenResponse.builder().token(tokenValue).build();
 
-            return ApiResponse.success("User logged in successfully", token);
-        } catch (Exception e) {
-            throw e;
+        return ApiResponse.success("User logged in successfully", token);
+    }
 
-        }
+    protected UserDetails getCurrentUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userDetails;
     }
 }
