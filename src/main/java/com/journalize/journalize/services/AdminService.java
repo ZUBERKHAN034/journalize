@@ -40,9 +40,9 @@ public class AdminService {
                 .lastName(request.getLastName())
                 .roles(List.of(request.getRole().toString()))
                 .build();
-
         // save the user to the database
         User createdUser = userRepository.save(user);
+        
         return ApiResponse.success("User created successfully", createdUser);
     }
 
@@ -68,9 +68,9 @@ public class AdminService {
         if (request.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
-
         // save the user to the database
         User updatedUser = userRepository.save(user);
+
         return ApiResponse.success("User updated successfully", updatedUser);
     }
 
@@ -96,8 +96,8 @@ public class AdminService {
 
         // Check and delete all journals created by the user
         journalRepository.deleteAllByUserId(user.getId());
-
         userRepository.delete(user);
+
         return ApiResponse.success("User deleted successfully");
     }
 }

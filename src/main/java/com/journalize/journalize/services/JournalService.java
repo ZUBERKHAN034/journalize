@@ -80,8 +80,8 @@ public class JournalService {
         if (request.getContent() != null) {
             existingJournal.setContent(request.getContent());
         }
-
         Journal updatedJournal = journalRepository.save(existingJournal);
+
         return ApiResponse.success("Journal updated successfully", updatedJournal);
     }
 
@@ -89,8 +89,8 @@ public class JournalService {
         // check if user is authenticated
         String email = authService.getCurrentUserDetails().getUsername();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
-
         final List<Journal> journals = journalRepository.findAllByUserId(user.getId());
+
         return ApiResponse.success("Journals found successfully", journals);
     }
 
@@ -102,6 +102,7 @@ public class JournalService {
         // check if journal exists
         Journal journal = journalRepository.findByIdAndUserId(id, user.getId())
                 .orElseThrow(() -> new JournalNotFoundException(id));
+
         return ApiResponse.success("Journal found successfully", journal);
     }
 
