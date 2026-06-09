@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
                         : "field";
 
                 return ResponseEntity.badRequest().body(ApiResponse.error(
-                        String.format("Invalid %s. Allowed values are: %s", fieldName, allowedValues)));
+                        String.format("Invalid %s. Allowed values are: '%s'", fieldName, allowedValues)));
             }
         }
 
