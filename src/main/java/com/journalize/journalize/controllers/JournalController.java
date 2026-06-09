@@ -32,32 +32,32 @@ public class JournalController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<?>> createJournal(@Valid @RequestBody CreateJournalRequest request) {
-        final ApiResponse<Journal> response = journalService.createJournal(request);
+        ApiResponse<Journal> response = journalService.createJournal(request);
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> updateJournal(@PathVariable String id,
             @Valid @RequestBody UpdateJournalRequest request) {
-        final ApiResponse<Journal> response = journalService.updateJournal(id, request);
+        ApiResponse<Journal> response = journalService.updateJournal(id, request);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<?>> getAllJournals() {
-        final ApiResponse<List<Journal>> response = journalService.getAllJournals();
+        ApiResponse<List<Journal>> response = journalService.getAllJournals();
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> getJournalById(@PathVariable String id) {
-        final ApiResponse<Journal> response = journalService.getJournalById(id);
+        ApiResponse<Journal> response = journalService.getJournalById(id);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> deleteJournal(@PathVariable String id) {
-        final ApiResponse<Void> response = journalService.deleteJournal(id);
+        ApiResponse<Void> response = journalService.deleteJournal(id);
         return ResponseEntity.ok().body(response);
     }
 }

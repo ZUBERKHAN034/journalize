@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.journalize.journalize.constants.Constants;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -16,10 +18,10 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
+    @Value(Constants.JWT_SECRET)
     private String secret;
 
-    @Value("${jwt.expiration}")
+    @Value(Constants.JWT_EXPIRATION)
     private Long expiration;
 
     private SecretKey getSecretKey() {

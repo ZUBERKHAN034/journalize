@@ -19,12 +19,16 @@ spring:
     mongodb:
       auto-index-creation: true
 
+# SERVER CONFIGURATION
+server:
+  servlet:
+    context-path: /api      
+
 # JWT CONFIGURATION
 jwt:
   secret: ${JWT_SECRET}
   expiration: 86400000 # 1 day in milliseconds   
 
-server:
-  servlet:
-    context-path: /api
-        
+# WEATHERSTACK CONFIGURATION
+weatherstack:
+  api-key: ${WEATHERSTACK_API_KEY}        

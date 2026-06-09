@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.dto.admin.CreateUserRequest;
 import com.journalize.journalize.dto.admin.UpdateUserRequest;
+import com.journalize.journalize.dto.weather.WeatherResponse;
 import com.journalize.journalize.entities.User;
 import com.journalize.journalize.services.AdminService;
 
@@ -31,32 +32,44 @@ public class AdminController {
 
     @PostMapping("/create-user")
     public ResponseEntity<ApiResponse<?>> createUser(@Valid @RequestBody CreateUserRequest request) {
-        final ApiResponse<User> response = adminService.createUser(request);
+        ApiResponse<User> response = adminService.createUser(request);
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/update-user/{id}")
     public ResponseEntity<ApiResponse<?>> updateUser(@PathVariable String id,
             @Valid @RequestBody UpdateUserRequest request) {
-        final ApiResponse<User> response = adminService.updateUser(id, request);
+        ApiResponse<User> response = adminService.updateUser(id, request);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/all-users")
     public ResponseEntity<ApiResponse<?>> getUsers() {
-        final ApiResponse<List<User>> response = adminService.getUsers();
+        ApiResponse<List<User>> response = adminService.getUsers();
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/get-user/{id}")
     public ResponseEntity<ApiResponse<?>> getUser(@PathVariable String id) {
-        final ApiResponse<User> response = adminService.getUser(id);
+        ApiResponse<User> response = adminService.getUser(id);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("delete-user/{id}")
     public ResponseEntity<ApiResponse<?>> deteteUser(@PathVariable String id) {
-        final ApiResponse<Void> response = adminService.deteteUser(id);
+        ApiResponse<Void> response = adminService.deteteUser(id);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/weather/{city}")
+    public ResponseEntity<ApiResponse<?>> weather(@PathVariable String city) {
+        ApiResponse<WeatherResponse.Current> response = adminService.weather(city);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/refresh-app-cache")
+    public ResponseEntity<ApiResponse<?>> refreshAppCache() {
+        ApiResponse<Void> response = adminService.refreshAppCache();
         return ResponseEntity.ok().body(response);
     }
 }

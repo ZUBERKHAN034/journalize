@@ -7,9 +7,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.journalize.journalize.Utils.Weatherstack;
+import com.journalize.journalize.config.AppCacheConfig;
 import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.dto.admin.CreateUserRequest;
 import com.journalize.journalize.dto.admin.UpdateUserRequest;
+import com.journalize.journalize.dto.weather.WeatherResponse;
 import com.journalize.journalize.entities.User;
 import com.journalize.journalize.enums.Role;
 import com.journalize.journalize.exceptions.BadRequestException;
@@ -28,6 +31,8 @@ public class AdminService {
     private final JournalRepository journalRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
+    private final Weatherstack weatherstack;
+    private final AppCacheConfig appCacheConfig;
 
     public ApiResponse<User> createUser(CreateUserRequest request) {
         // Check if user with the same email already exists
@@ -108,5 +113,15 @@ public class AdminService {
         userRepository.delete(user);
 
         return ApiResponse.success("User deleted successfully");
+    }
+
+    public ApiResponse<WeatherResponse.Current> weather(String city) {
+        var weather = weatherstack.getWeather(city);
+        return ApiResponse.success("Weather fetched successfully", weather);
+    }
+
+    public ApiResponse<Void> refreshAppCache() {
+        appCacheConfig.init();
+        return ApiResponse.success("App cache refreshed successfully");
     }
 }
