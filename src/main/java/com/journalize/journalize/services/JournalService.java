@@ -58,7 +58,7 @@ public class JournalService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
 
         // check if journal exists
-        Journal existingJournal = journalRepository.findById(id)
+        Journal existingJournal = journalRepository.findByIdAndUserId(id, user.getId())
                 .orElseThrow(() -> new JournalNotFoundException(id));
 
         if (request.getTitle() == null && request.getContent() == null) {
@@ -113,12 +113,11 @@ public class JournalService {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
 
         // check if journal exists
-        if (!journalRepository.existsById(id)) {
-            throw new JournalNotFoundException(id);
-        }
+        journalRepository.findByIdAndUserId(id, user.getId())
+                .orElseThrow(() -> new JournalNotFoundException(id));
 
         // delete journal from the database
-        journalRepository.deleteById(id);
+        journalRepository.deleteByIdAndUserId(id, user.getId());
 
         // delete journal from the user's journals
         user.getJournals().removeIf(journal -> journal.getId().equals(id));

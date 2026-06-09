@@ -41,7 +41,6 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .roles(List.of("USER"))
                 .build();
 
         // save the user to the database

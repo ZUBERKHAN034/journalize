@@ -1,6 +1,5 @@
 package com.journalize.journalize.security;
 
-import java.util.List;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         user.getPassword(),
                         user.getRoles()
                                 .stream()
-                                .map(SimpleGrantedAuthority::new)
+                                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
                                 .toList()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }

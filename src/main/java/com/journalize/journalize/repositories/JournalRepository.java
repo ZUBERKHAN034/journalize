@@ -16,5 +16,7 @@ public interface JournalRepository extends MongoRepository<Journal, String> {
 
     Optional<Journal> findByIdAndUserId(String id, String userId);
 
-    boolean deleteAllByUserId(String userId);
+    long deleteAllByUserId(String userId);
+
+    boolean deleteByIdAndUserId(String id, String userId);
 }

@@ -1,6 +1,7 @@
 package com.journalize.journalize.services;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.dto.admin.CreateUserRequest;
 import com.journalize.journalize.dto.admin.UpdateUserRequest;
 import com.journalize.journalize.entities.User;
+import com.journalize.journalize.enums.Role;
 import com.journalize.journalize.exceptions.BadRequestException;
 import com.journalize.journalize.exceptions.user.UserAlreadyExistsException;
 import com.journalize.journalize.exceptions.user.UserNotFoundException;
@@ -38,16 +40,21 @@ public class AdminService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .roles(List.of(request.getRole().toString()))
                 .build();
         // save the user to the database
         User createdUser = userRepository.save(user);
-        
+
         return ApiResponse.success("User created successfully", createdUser);
     }
 
     public ApiResponse<User> updateUser(String id, UpdateUserRequest request) {
+        String email = authService.getCurrentUserDetails().getUsername();
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+
+        // Check if the admin is deleting itself
+        if (user.getEmail().equals(email) && request.getRole() == Role.USER) {
+            throw new BadRequestException("You cannot change your role to 'USER'");
+        }
 
         if (request.getFirstName() != null) {
             user.setFirstName(request.getFirstName());
@@ -58,7 +65,7 @@ public class AdminService {
         }
 
         if (request.getRole() != null) {
-            user.setRoles(List.of(request.getRole().toString()));
+            user.setRoles(Set.of(request.getRole()));
         }
 
         if (request.getEmail() != null) {
@@ -96,6 +103,8 @@ public class AdminService {
 
         // Check and delete all journals created by the user
         journalRepository.deleteAllByUserId(user.getId());
+
+        // Delete the user
         userRepository.delete(user);
 
         return ApiResponse.success("User deleted successfully");

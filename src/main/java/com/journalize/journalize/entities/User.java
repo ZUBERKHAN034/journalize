@@ -3,6 +3,7 @@ package com.journalize.journalize.entities;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.journalize.journalize.enums.Role;
 import com.mongodb.lang.NonNull;
 
 import lombok.AllArgsConstructor;
@@ -47,7 +49,7 @@ public class User {
     private String password;
 
     @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    private Set<Role> roles = Set.of(Role.USER);
 
     @Builder.Default
     @DBRef
