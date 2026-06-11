@@ -34,6 +34,8 @@ public class SecurityConfig {
                                                 .permitAll()
                                                 // ADMIN ONLY
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                // USER ONLY
+                                                .requestMatchers("/users/**").hasRole("USER")
                                                 // ALL AUTHENTICATED USERS
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session

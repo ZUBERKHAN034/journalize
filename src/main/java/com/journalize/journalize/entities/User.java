@@ -56,6 +56,9 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Journal> journals = new ArrayList<>();
 
+    @Builder.Default
+    private Boolean sentimentAnalysis = false;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

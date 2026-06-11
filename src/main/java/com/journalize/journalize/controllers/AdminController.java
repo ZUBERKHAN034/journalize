@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.journalize.journalize.dto.ApiResponse;
-import com.journalize.journalize.dto.admin.CreateUserRequest;
-import com.journalize.journalize.dto.admin.UpdateUserRequest;
+import com.journalize.journalize.dto.user.CreateUserRequest;
+import com.journalize.journalize.dto.user.UpdateUserRequest;
 import com.journalize.journalize.dto.weather.WeatherResponse;
 import com.journalize.journalize.entities.User;
 import com.journalize.journalize.services.AdminService;
@@ -57,7 +57,7 @@ public class AdminController {
 
     @DeleteMapping("delete-user/{id}")
     public ResponseEntity<ApiResponse<?>> deteteUser(@PathVariable String id) {
-        ApiResponse<Void> response = adminService.deteteUser(id);
+        ApiResponse<Void> response = adminService.deleteUser(id);
         return ResponseEntity.ok().body(response);
     }
 

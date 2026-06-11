@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.journalize.journalize.enums.Sentiment;
 import com.mongodb.lang.NonNull;
 
 import lombok.AllArgsConstructor;
@@ -40,6 +41,9 @@ public class Journal {
     @Indexed
     @NonNull
     private String userId;
+
+    @Builder.Default
+    private Sentiment sentiment = null;
 
     @CreatedDate
     private LocalDateTime createdAt;

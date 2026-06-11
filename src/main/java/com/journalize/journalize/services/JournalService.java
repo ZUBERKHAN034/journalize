@@ -43,6 +43,15 @@ public class JournalService {
                 .title(request.getTitle())
                 .content(request.getContent())
                 .userId(user.getId()).build();
+
+        if (user.getSentimentAnalysis()) {
+            if (request.getSentiment() == null) {
+                throw new BadRequestException("Sentiment is required");
+            }
+
+            journal.setSentiment(request.getSentiment());
+        }
+
         Journal createdJournal = journalRepository.save(journal);
 
         // add the journal to the user's journals
@@ -80,6 +89,16 @@ public class JournalService {
         if (request.getContent() != null) {
             existingJournal.setContent(request.getContent());
         }
+
+        // check if sentiment is provided
+        if (request.getSentiment() != null) {
+            if (user.getSentimentAnalysis()) {
+                existingJournal.setSentiment(request.getSentiment());
+            } else {
+                throw new BadRequestException("Sentiment analysis is disabled");
+            }
+        }
+
         Journal updatedJournal = journalRepository.save(existingJournal);
 
         return ApiResponse.success("Journal updated successfully", updatedJournal);
