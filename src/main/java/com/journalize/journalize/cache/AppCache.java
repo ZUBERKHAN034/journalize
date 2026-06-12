@@ -1,4 +1,4 @@
-package com.journalize.journalize.config;
+package com.journalize.journalize.cache;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class AppCacheConfig {
+public class AppCache {
 
     private final ConfigRepository configRepository;
 

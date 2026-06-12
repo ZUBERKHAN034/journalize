@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Weekly Sentiment Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        p {
+            color: #555555;
+            line-height: 1.6;
+        }
+
+        .sentiment-container {
+            background-color: #f2f2f2;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .sentiment {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333333;
+            letter-spacing: 1px;
+        }
+
+        .message {
+            background-color: #fafafa;
+            padding: 15px;
+            border-left: 4px solid #4a90e2;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .signature {
+            margin-top: 30px;
+            color: #777777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Your Weekly Sentiment Report</h2>
+
+        <p>
+            Dear <span th:text="${firstName}">User</span>,
+        </p>
+
+        <p>
+            Thank you for continuing your journaling journey. Based on your
+            journal entries from this week, we analyzed the overall emotional
+            tone and generated the following sentiment summary.
+        </p>
+
+        <div class="sentiment-container">
+            <div class="sentiment" th:text="${weeklySentiment}">
+                HAPPY
+            </div>
+        </div>
+
+        <div class="message">
+            <p th:text="${weeklySentimentMessage}">
+                Your weekly sentiment summary is available.
+            </p>
+        </div>
+
+        <p>
+            Regular reflection can help you better understand your emotions,
+            identify patterns, and track your personal growth over time.
+        </p>
+
+        <p>
+            We look forward to supporting you on your journaling journey.
+        </p>
+
+        <p class="signature">
+            Best regards,<br />
+            Journalize AI
+        </p>
+    </div>
+</body>
+
+</html>
