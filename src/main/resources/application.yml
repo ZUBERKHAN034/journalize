@@ -31,4 +31,11 @@ jwt:
 
 # WEATHERSTACK CONFIGURATION
 weatherstack:
-  api-key: ${WEATHERSTACK_API_KEY}        
+  api-key: ${WEATHERSTACK_API_KEY}
+
+# BREVO CONFIGURATION
+brevo:
+  api-key: ${BREVO_API_KEY}
+  url: ${BREVO_API_URL}
+  domain: ${BREVO_EMAIL_DOMAIN}
+  name: ${BREVO_SENDER_NAME}          

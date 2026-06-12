@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.journalize.journalize.enums.Role;
 import com.journalize.journalize.Utils.Weatherstack;
-import com.journalize.journalize.config.AppCacheConfig;
+import com.journalize.journalize.cache.AppCache;
 import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.dto.user.CreateUserRequest;
 import com.journalize.journalize.dto.user.UpdateUserRequest;
@@ -32,7 +32,7 @@ public class AdminService {
     private final PasswordEncoder passwordEncoder;
     private final AuthService authService;
     private final Weatherstack weatherstack;
-    private final AppCacheConfig appCacheConfig;
+    private final AppCache appCache;
 
     public ApiResponse<User> createUser(CreateUserRequest request) {
         // Check if user with the same email already exists
@@ -137,11 +137,15 @@ public class AdminService {
 
     public ApiResponse<WeatherResponse.Current> weather(String city) {
         var weather = weatherstack.getWeather(city);
+        if (weather == null) {
+            throw new BadRequestException("Weather not fetched, try again later");
+        }
+
         return ApiResponse.success("Weather fetched successfully", weather);
     }
 
     public ApiResponse<Void> refreshAppCache() {
-        appCacheConfig.init();
+        appCache.init();
         return ApiResponse.success("App cache refreshed successfully");
     }
 }

@@ -13,5 +13,25 @@
     "name": "jwt.expiration",
     "type": "java.lang.String",
     "description": "A description for 'jwt.expiration'"
+  },
+  {
+    "name": "brevo.api-key",
+    "type": "java.lang.String",
+    "description": "A description for 'brevo.api-key'"
+  },
+  {
+    "name": "brevo.url",
+    "type": "java.lang.String",
+    "description": "A description for 'brevo.url'"
+  },
+  {
+    "name": "brevo.domain",
+    "type": "java.lang.String",
+    "description": "A description for 'brevo.domain'"
+  },
+  {
+    "name": "brevo.name",
+    "type": "java.lang.String",
+    "description": "A description for 'brevo.name'"
   }
 ]}
