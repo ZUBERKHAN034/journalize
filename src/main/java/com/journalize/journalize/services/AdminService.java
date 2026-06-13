@@ -1,5 +1,6 @@
 package com.journalize.journalize.services;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.journalize.journalize.enums.Role;
 import com.journalize.journalize.Utils.Weatherstack;
 import com.journalize.journalize.cache.AppCache;
+import com.journalize.journalize.cache.RedisCache;
 import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.dto.user.CreateUserRequest;
 import com.journalize.journalize.dto.user.UpdateUserRequest;
@@ -33,6 +35,7 @@ public class AdminService {
     private final AuthService authService;
     private final Weatherstack weatherstack;
     private final AppCache appCache;
+    private final RedisCache redisCache;
 
     public ApiResponse<User> createUser(CreateUserRequest request) {
         // Check if user with the same email already exists
@@ -136,10 +139,22 @@ public class AdminService {
     }
 
     public ApiResponse<WeatherResponse.Current> weather(String city) {
-        var weather = weatherstack.getWeather(city);
+
+        WeatherResponse.Current weather = null;
+
+        // Check if the weather is already cached
+        weather = redisCache.get(city.toLowerCase(), WeatherResponse.Current.class);
         if (weather == null) {
-            throw new BadRequestException("Weather not fetched, try again later");
+
+            // Fetch the weather from weatherstack
+            weather = weatherstack.getWeather(city);
+            if (weather == null) {
+                throw new BadRequestException("Weather not fetched, try again later");
+            }
         }
+
+        // Cache the weather
+        redisCache.set(city.toLowerCase(), weather, Duration.ofHours(1)); // 1 hour cache
 
         return ApiResponse.success("Weather fetched successfully", weather);
     }

@@ -14,10 +14,14 @@ spring:
     uri: ${MONGODB_URI}
     database: ${MONGODB_DATABASE}
 
-  # ENABLE AUTO-INDEX CREATION FOR MONGODB
   data:
+    # ENABLE AUTO-INDEX CREATION FOR MONGODB
     mongodb:
       auto-index-creation: true
+
+    # REDIS CONFIGURATION
+    redis:
+      url: ${REDIS_URL}
 
 # SERVER CONFIGURATION
 server:
