@@ -14,9 +14,5 @@ public class Constants {
     public static final String BREVO_API_URL = "${brevo.url}";
     public static final String BREVO_EMAIL_DOMAIN = "${brevo.domain}";
     public static final String BREVO_SENDER_NAME = "${brevo.name}";
-<<<<<<< HEAD
 
 }
-=======
-}
->>>>>>> 1c4c190 (✨ Integrate Kafka messaging: add Kafka producer and consumer services, configure Kafka topics, and update email functionality to utilize Kafka for weekly sentiment reports)
