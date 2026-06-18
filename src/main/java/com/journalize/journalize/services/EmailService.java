@@ -34,7 +34,7 @@ public class EmailService {
 
     private final RestClient restClient;
 
-    public String sendEmail(String to, String subject, String htmlContent) {
+    public String sendEmail(String to, String subject, String body) {
 
         var SenderEmail = "journalize@" + domain;
 
@@ -45,7 +45,7 @@ public class EmailService {
                 "to", List.of(
                         Map.of("email", to)),
                 "subject", subject,
-                "htmlContent", htmlContent);
+                "htmlContent", body);
 
         try {
 

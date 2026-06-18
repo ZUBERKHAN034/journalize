@@ -24,7 +24,7 @@ public class Weatherstack {
 
     public WeatherResponse.Current getWeather(String city) {
         try {
-            String url = appCache.get(Constants.WEATHERSTACK_API_URL)
+            String url = appCache.get(Constants.APP_CACHE_KEY_WEATHERSTACK_API_URL)
                     .replace(Constants.API_KEY, apiKey)
                     .replace(Constants.CITY, city);
 

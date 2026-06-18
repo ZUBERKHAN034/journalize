@@ -12,9 +12,10 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.journalize.journalize.constants.Constants;
+import com.journalize.journalize.dto.user.SentimentData;
 import com.journalize.journalize.entities.User;
+import com.journalize.journalize.kafka.KafkaProducerService;
 import com.journalize.journalize.repositories.UserRepository;
-import com.journalize.journalize.services.EmailService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserScheduler {
 
     private final UserRepository userRepository;
-    private final EmailService emailService;
+    private final KafkaProducerService kafkaProducerService;
     private final TemplateEngine templateEngine;
 
     @Scheduled(cron = "0 0 0 * * SUN") // Run every Sunday at 00:00 UTC
@@ -38,24 +39,22 @@ public class UserScheduler {
             var sentiment = getUserWeeklySentiment(user);
 
             if (sentiment == null)
-                sentiment = "NONE";
+                sentiment = "NO SENTIMENT";
 
             Context context = new Context();
             context.setVariable("firstName", user.getFirstName());
             context.setVariable("weeklySentiment", sentiment);
             context.setVariable("weeklySentimentMessage", getWeeklySentimentMessage(sentiment));
 
-            var html = templateEngine.process(Constants.EMAIL_TEMPLATE_WEEKLY_SENTIMENT, context);
+            var htmlBody = templateEngine.process(Constants.TEMPLATE_EMAIL_WEEKLY_SENTIMENT, context);
 
-            var messageId = emailService.sendEmail(user.getEmail(), "Journalize Weekly Sentiment Report", html);
-            if (messageId != null) {
-                log.info("Email sent with messageId: {}", messageId);
-            } else {
-                log.error("Failed to send email for user: {}", user.getEmail());
-            }
+            SentimentData sentimentData = SentimentData.builder()
+                    .email(user.getEmail()).subject("Journalize Weekly Sentiment Report").body(htmlBody).build();
+
+            kafkaProducerService.send(sentimentData.getEmail(), sentimentData);
         }
 
-        log.info("Weekly sentiment email sent to {} users", users.size());
+        log.info("Weekly sentiments sent to {} users", users.size());
 
     }
 

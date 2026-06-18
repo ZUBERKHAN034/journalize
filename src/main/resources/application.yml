@@ -2,6 +2,26 @@ spring:
   application:
     name: journalize
 
+  # KAFKA CONFIGURATION
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST}
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+
+    consumer:
+      group-id: ${KAFKA_GROUP_JOURNALIZE}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: com.journalize.journalize.dto.user
+        spring.json.value.default.type: com.journalize.journalize.dto.user.SentimentData
+
   # AUTO RESTART AND LIVE RELOAD CONFIGURATION
   devtools:
     restart:
@@ -15,23 +35,21 @@ spring:
     database: ${MONGODB_DATABASE}
 
   data:
-    # ENABLE AUTO-INDEX CREATION FOR MONGODB
     mongodb:
       auto-index-creation: true
 
-    # REDIS CONFIGURATION
     redis:
       url: ${REDIS_URL}
 
 # SERVER CONFIGURATION
 server:
   servlet:
-    context-path: /api      
+    context-path: /api
 
 # JWT CONFIGURATION
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 86400000 # 1 day in milliseconds   
+  expiration: 86400000 # 1 day
 
 # WEATHERSTACK CONFIGURATION
 weatherstack:
@@ -42,4 +60,4 @@ brevo:
   api-key: ${BREVO_API_KEY}
   url: ${BREVO_API_URL}
   domain: ${BREVO_EMAIL_DOMAIN}
-  name: ${BREVO_SENDER_NAME}          
+  name: ${BREVO_SENDER_NAME}
