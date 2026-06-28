@@ -88,5 +88,25 @@
     "name": "spring.kafka.producer.retries",
     "type": "java.lang.String",
     "description": "A description for 'spring.kafka.producer.retries'"
+  },
+  {
+    "name": "kafka.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'kafka.enabled'"
+  },
+  {
+    "name": "rabbitmq.exchange",
+    "type": "java.lang.String",
+    "description": "A description for 'rabbitmq.exchange'"
+  },
+  {
+    "name": "rabbitmq.queue",
+    "type": "java.lang.String",
+    "description": "A description for 'rabbitmq.queue'"
+  },
+  {
+    "name": "rabbitmq.routing-key",
+    "type": "java.lang.String",
+    "description": "A description for 'rabbitmq.routing-key'"
   }
 ]}

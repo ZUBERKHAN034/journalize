@@ -1,6 +1,8 @@
-package com.journalize.journalize.kafka;
+package com.journalize.journalize.messaging.kafka;
 
 import com.journalize.journalize.services.EmailService;
+
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@ConditionalOnProperty(name = Constants.KAFKA_ENABLED, havingValue = "true", matchIfMissing = true)
 public class KafkaProducerService {
 
     private final EmailService emailService;
@@ -33,10 +36,11 @@ public class KafkaProducerService {
                         sentimentData.getSubject(),
                         sentimentData.getBody());
 
-                log.info("Kafka message failed to sent with data: {} used backup email sent with messageId: {}",
-                        messageId);
+                log.info(
+                        "Kafka message failed to sent with customer email: {} used backup email sent with messageId: {}",
+                        sentimentData.getEmail(), messageId);
             } else {
-                log.info("Kafka message sent with key [{}]: {}", key, result.getProducerRecord().value());
+                log.info("Kafka message sent with key [{}]: {}", key, result.getProducerRecord().value().getEmail());
             }
         });
     }

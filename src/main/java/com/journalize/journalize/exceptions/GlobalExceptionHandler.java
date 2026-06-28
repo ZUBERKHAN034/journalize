@@ -95,7 +95,9 @@ public class GlobalExceptionHandler {
             Class<?> targetType = ife.getTargetType();
 
             if (targetType != null && targetType.isEnum()) {
-                String allowedValues = Arrays.stream(targetType.getEnumConstants()).map(Object::toString)
+                String allowedValues = Arrays.stream(targetType.getEnumConstants())
+                        .filter(e -> e != null)
+                        .map(e -> e.toString())
                         .collect(Collectors.joining(", "));
 
                 String fieldName = (ife.getPath() != null && !ife.getPath().isEmpty())

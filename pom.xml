@@ -76,6 +76,13 @@
 		</dependency>
 		<!-- Redis -->
 
+		<!-- RabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<!-- RabbitMQ -->
+
 		<!-- Kafka -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
