@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.journalize.journalize.enums.Role;
-import com.journalize.journalize.Utils.Weatherstack;
 import com.journalize.journalize.cache.AppCache;
 import com.journalize.journalize.cache.RedisCache;
 import com.journalize.journalize.dto.ApiResponse;
@@ -22,6 +21,7 @@ import com.journalize.journalize.exceptions.user.UserAlreadyExistsException;
 import com.journalize.journalize.exceptions.user.UserNotFoundException;
 import com.journalize.journalize.repositories.JournalRepository;
 import com.journalize.journalize.repositories.UserRepository;
+import com.journalize.journalize.utils.Weatherstack;
 
 import lombok.RequiredArgsConstructor;
 
