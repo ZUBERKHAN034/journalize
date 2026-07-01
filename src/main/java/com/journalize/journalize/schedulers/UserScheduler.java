@@ -32,7 +32,7 @@ public class UserScheduler {
         private final RabbitMQProducerService rabbitMQProducerService;
         private final Optional<KafkaProducerService> kafkaProducerService;
 
-        @Scheduled(cron = "0 0 0 * * *") // Run every Sunday at 00:00 UTC
+        @Scheduled(cron = "0 0 0 * * SUN") // Run every Sunday at 00:00 UTC
         public void sendWeeklySentimentEmailToUserScheduler() {
 
                 var users = userRepository.getUsersForSA();
