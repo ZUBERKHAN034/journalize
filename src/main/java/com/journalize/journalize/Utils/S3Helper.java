@@ -26,8 +26,8 @@ public class S3Helper {
     @Value(Constants.BACKBLAZE_BUCKET)
     private String bucket;
 
-    @Value(Constants.BACKBLAZE_MAIN_FOLDER)
-    private String mainFolder;
+    @Value(Constants.BACKBLAZE_FOLDER)
+    private String folder;
 
     private final S3Client s3Client;
     private final S3Presigner s3Presigner;
@@ -63,7 +63,7 @@ public class S3Helper {
     }
 
     private String buildFullKey(String id) {
-        String folder = mainFolder.endsWith("/") ? mainFolder : mainFolder + "/";
-        return folder + id;
+        String selectedFolder = folder.endsWith("/") ? folder : folder + "/";
+        return selectedFolder + id;
     }
 }

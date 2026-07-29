@@ -130,13 +130,13 @@
     "description": "A description for 'backblaze.region'"
   },
   {
-    "name": "backblaze.main-folder",
-    "type": "java.lang.String",
-    "description": "A description for 'backblaze.main-folder'"
-  },
-  {
     "name": "backblaze.bucket",
     "type": "java.lang.String",
     "description": "A description for 'backblaze.bucket'"
+  },
+  {
+    "name": "backblaze.folder",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.folder'"
   }
 ]}

@@ -86,4 +86,4 @@ backblaze:
   endpoint: ${BACKBLAZE_ENDPOINT}
   bucket: ${BACKBLAZE_BUCKET}   
   region: ${BACKBLAZE_REGION}
-  main-folder: ${BACKBLAZE_MAIN_FOLDER}
+  folder: ${BACKBLAZE_FOLDER}

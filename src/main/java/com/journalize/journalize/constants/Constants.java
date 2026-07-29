@@ -23,6 +23,6 @@ public class Constants {
     public static final String BACKBLAZE_ENDPOINT = "${backblaze.endpoint}";
     public static final String BACKBLAZE_BUCKET = "${backblaze.bucket}";
     public static final String BACKBLAZE_REGION = "${backblaze.region}";
-    public static final String BACKBLAZE_MAIN_FOLDER = "${backblaze.main-folder}";
+    public static final String BACKBLAZE_FOLDER = "${backblaze.folder}";
 
 }
