@@ -78,3 +78,12 @@ rabbitmq:
   exchange: journalize.exchange
   queue: weekly.sentiment.queue
   routing-key: weekly.sentiment
+
+# BACKBLAZE CONFIGURATION
+backblaze:
+  access-key: ${BACKBLAZE_ACCESS_KEY}
+  secret-key: ${BACKBLAZE_SECRET_KEY}
+  endpoint: ${BACKBLAZE_ENDPOINT}
+  bucket: ${BACKBLAZE_BUCKET}   
+  region: ${BACKBLAZE_REGION}
+  main-folder: ${BACKBLAZE_MAIN_FOLDER}

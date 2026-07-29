@@ -97,6 +97,14 @@
 		</dependency>
 		<!-- Spring Security -->
 
+		<!-- AWS S3 -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+			<version>2.28.11</version>
+		</dependency>
+		<!-- AWS S3 -->
+
 		<!-- JWT -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

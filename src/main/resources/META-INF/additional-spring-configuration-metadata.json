@@ -108,5 +108,35 @@
     "name": "rabbitmq.routing-key",
     "type": "java.lang.String",
     "description": "A description for 'rabbitmq.routing-key'"
+  },
+  {
+    "name": "backblaze.access-key",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.access-key'"
+  },
+  {
+    "name": "backblaze.secret-key",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.secret-key'"
+  },
+  {
+    "name": "backblaze.endpoint",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.endpoint'"
+  },
+  {
+    "name": "backblaze.region",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.region'"
+  },
+  {
+    "name": "backblaze.main-folder",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.main-folder'"
+  },
+  {
+    "name": "backblaze.bucket",
+    "type": "java.lang.String",
+    "description": "A description for 'backblaze.bucket'"
   }
 ]}

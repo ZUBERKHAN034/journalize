@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/journals")
+@RequestMapping("/journal")
 @SecurityRequirement(name = "bearerAuth")
 public class JournalController {
 

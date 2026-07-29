@@ -35,8 +35,8 @@ public class SecurityConfig {
                                                 // ADMIN ONLY
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                                 // USER ONLY
-                                                .requestMatchers("/users/**").hasRole("USER")
-                                                // ALL AUTHENTICATED USERS
+                                                .requestMatchers("/user/**").hasRole("USER")
+                                                // ALL AUTHENTICATED USER
                                                 .anyRequest().authenticated())
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
