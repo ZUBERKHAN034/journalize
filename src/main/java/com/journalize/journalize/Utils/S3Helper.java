@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.journalize.journalize.constants.Constants;
+
 import lombok.RequiredArgsConstructor;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -21,10 +23,10 @@ import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignReques
 @RequiredArgsConstructor
 public class S3Helper {
 
-    @Value("${backblaze.bucket}")
+    @Value(Constants.BACKBLAZE_BUCKET)
     private String bucket;
 
-    @Value("${backblaze.main-folder}")
+    @Value(Constants.BACKBLAZE_MAIN_FOLDER)
     private String mainFolder;
 
     private final S3Client s3Client;

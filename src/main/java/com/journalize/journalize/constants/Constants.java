@@ -18,5 +18,11 @@ public class Constants {
     public static final String BREVO_API_URL = "${brevo.url}";
     public static final String BREVO_EMAIL_DOMAIN = "${brevo.domain}";
     public static final String BREVO_SENDER_NAME = "${brevo.name}";
+    public static final String BACKBLAZE_ACCESS_KEY = "${backblaze.access-key}";
+    public static final String BACKBLAZE_SECRET_KEY = "${backblaze.secret-key}";
+    public static final String BACKBLAZE_ENDPOINT = "${backblaze.endpoint}";
+    public static final String BACKBLAZE_BUCKET = "${backblaze.bucket}";
+    public static final String BACKBLAZE_REGION = "${backblaze.region}";
+    public static final String BACKBLAZE_MAIN_FOLDER = "${backblaze.main-folder}";
 
 }
