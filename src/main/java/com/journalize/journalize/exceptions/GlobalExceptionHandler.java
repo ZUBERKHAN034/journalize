@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
 import com.journalize.journalize.dto.ApiResponse;
 import com.journalize.journalize.exceptions.auth.InvalidCredentialsException;
 import com.journalize.journalize.exceptions.journal.JournalAlreadyExistsException;
@@ -120,6 +122,12 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error("File upload failed, please try again"));
     }
 
+   @ExceptionHandler(MaxUploadSizeExceededException.class)
+   public ResponseEntity<ApiResponse<Void>> handleMaxUploadSize(MaxUploadSizeExceededException ex) {
+        return ResponseEntity.status(HttpStatus.CONTENT_TOO_LARGE)
+            .body(ApiResponse.error("File size exceeds the maximum allowed limit"));
+   }
+   
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleGeneric(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

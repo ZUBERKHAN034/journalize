@@ -47,6 +47,12 @@ spring:
     redis:
       url: ${REDIS_URL}
 
+  # FILE UPLOAD CONFIGURATION
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 # SERVER CONFIGURATION
 server:
   servlet:
